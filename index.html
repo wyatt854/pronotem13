@@ -146,8 +146,9 @@
      ✅ Supabase via CDN jsDelivr (fiable, pas de 404)
      ✅ Chemins relatifs pour les fichiers locaux
      ============================================= -->
+<!-- CDN Supabase — doit rester AVANT app.js -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="js/supabase.js"></script>
+<!-- app.js contient TOUT : config Supabase + logique + pages -->
 <script src="js/app.js"></script>
 
 <script>
