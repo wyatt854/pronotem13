@@ -1618,7 +1618,19 @@ async function refuserJustif(id,eleveId){
 
 // ── 31. POINT D'ENTRÉE ───────────────────────
 function init() {
-  supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+  // Vérifier que le CDN Supabase est bien chargé
+  if(!window.supabase) {
+    document.getElementById('login-error').textContent = 'Erreur : impossible de charger la bibliothèque Supabase. Vérifiez votre connexion internet.';
+    document.getElementById('login-error').classList.remove('hidden');
+    document.getElementById('login-screen').style.display='flex';
+    document.getElementById('app').style.display='none';
+    // Brancher quand même le bouton pour réessayer
+    var btn=document.getElementById('btn-login');
+    if(btn) btn.addEventListener('click', function(){ showLoginError('Supabase non chargé — rechargez la page.'); });
+    return;
+  }
+  try { supa = window.supabase.createClient(SUPA_URL, SUPA_KEY); }
+  catch(e) { console.error('Supabase init error:', e); return; }
   if(loadSession()) {
     if(currentRole==='acteur') {
       db.mesCoursEDT(currentUser.id).then(function(r){monsCours=r.data||[];initApp();});
