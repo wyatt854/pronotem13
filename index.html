@@ -91,7 +91,7 @@
     <div class="topbar-spacer"></div>
     <div class="topbar-notif" onclick="navigate('messages')" title="Messages">
       ✉️
-      <div class="notif-badge" id="notif-msg" style="display:none">0</div>
+      <div class="notif-badge" id="notif-badge" style="display:none">0</div></div><div id=notif-dropdown style="display:none;position:fixed;top:54px;right:16px;width:320px;background:white;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:2000;border:1px solid var(--gris-border);max-height:400px;overflow-y:auto"><div style="padding:10px 14px;border-bottom:1px solid var(--gris-border);font-weight:700;font-size:13px;color:var(--bleu-pronote)">🔔 Notifications</div><div id="notif-dropdown-items"></div></div><div style="display:none"
     </div>
     <div class="topbar-user">
       <div class="avatar" id="user-initials">?</div>
@@ -149,7 +149,7 @@
 <!-- CDN Supabase — doit rester AVANT app.js -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <!-- app.js contient TOUT : config Supabase + logique + pages -->
-<script src="js/app.js?v=9"></script>
+<script src="js/app.js?v=10"></script>
 
 <script>
 function selectRole(role, btn) {
