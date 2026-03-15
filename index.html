@@ -4,102 +4,102 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>M13 Studio — Espace scolaire</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
-
-  <!-- ✅ Chemin RELATIF (sans / au début) — fonctionne sur GitHub Pages sous-dossier -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- =============================================
-     ÉCRAN DE CONNEXION
-     ============================================= -->
+<!-- ÉCRAN DE CONNEXION -->
 <div id="login-screen" class="login-page">
   <div class="login-card">
     <div class="login-top">
-      <div class="login-logo">M13 STUDIO
-        <span>Espace Scolaire Numérique</span>
-      </div>
+      <div class="login-logo">M13 STUDIO<span>Espace Scolaire Numérique</span></div>
     </div>
-
     <div class="login-body">
       <p style="font-size:13px;color:#546E7A;text-align:center;margin-bottom:20px">
-        Sélectionnez votre rôle puis entrez vos identifiants pour accéder à votre espace.
+        Sélectionnez votre rôle puis connectez-vous.
       </p>
-
-      <!-- Sélection du rôle -->
       <div class="role-selector" id="role-selector">
-        <button class="role-btn" onclick="selectRole('acteur', this)">
+        <button class="role-btn" onclick="selectRole('acteur',this)">
           <span class="role-icon">🎓</span>
           <span class="role-name">ACTEUR</span>
-          <span class="role-desc">Élève ou intervenant en cours</span>
+          <span class="role-desc">Élève / Intervenant</span>
         </button>
-        <button class="role-btn" onclick="selectRole('moderateur', this)">
+        <button class="role-btn" onclick="selectRole('moderateur',this)">
           <span class="role-icon">🎭</span>
           <span class="role-name">MODÉRATEUR</span>
-          <span class="role-desc">Vie scolaire, emploi du temps</span>
+          <span class="role-desc">Vie scolaire</span>
         </button>
-        <button class="role-btn" onclick="selectRole('realisateur', this)">
+        <button class="role-btn" onclick="selectRole('realisateur',this)">
           <span class="role-icon">🎬</span>
           <span class="role-name">RÉALISATEUR</span>
-          <span class="role-desc">Directeur, administration</span>
+          <span class="role-desc">Directeur / Admin</span>
+        </button>
+        <button class="role-btn" onclick="selectRole('parent',this)">
+          <span class="role-icon">👨‍👩‍👦</span>
+          <span class="role-name">PARENT</span>
+          <span class="role-desc">Espace famille</span>
         </button>
       </div>
       <input type="hidden" id="selected-role" value="">
-
-      <!-- Formulaire connexion -->
-      <div class="form-group">
+      <div class="form-group" style="margin-top:16px">
         <label class="form-label">Identifiant</label>
-        <input class="form-control" type="text" id="login-ident" placeholder="Votre identifiant"
-          autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('login-pwd').focus()">
+        <input class="form-control" type="text" id="login-ident" placeholder="Votre identifiant" autocomplete="username">
       </div>
       <div class="form-group">
         <label class="form-label">Mot de passe</label>
         <div style="position:relative">
-          <input class="form-control" type="password" id="login-pwd" placeholder="Votre mot de passe"
-            autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"
-            style="padding-right:40px">
-          <button onclick="togglePwd()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px" id="eye-btn">👁️</button>
+          <input class="form-control" type="password" id="login-pwd" placeholder="Votre mot de passe" autocomplete="current-password" style="padding-right:44px">
+          <button onclick="togglePwd()" id="eye-btn" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px">👁️</button>
         </div>
       </div>
-
-      <!-- Message d'erreur -->
       <div id="login-error" class="alert alert-danger hidden"></div>
-
-      <button class="btn btn-primary" id="btn-login" onclick="login()" style="width:100%;margin-top:8px;padding:11px">
-        Se connecter
-      </button>
-
+      <button class="btn btn-primary" id="btn-login" style="width:100%;padding:11px;margin-top:8px">Se connecter</button>
       <p style="text-align:center;font-size:11.5px;color:#90A4AE;margin-top:16px">
-        🔒 Accès réservé aux membres de M13 Studio.<br>
-        Contactez le Réalisateur pour obtenir un compte.
+        🔒 Accès réservé — comptes créés par le Réalisateur.
       </p>
     </div>
   </div>
 </div>
 
-<!-- =============================================
-     APPLICATION PRINCIPALE
-     ============================================= -->
+<!-- APPLICATION -->
 <div id="app" style="display:none">
 
   <!-- TOPBAR -->
   <div class="topbar">
-    <a href="#" class="topbar-logo" onclick="navigate(currentRole==='acteur'?'mondashboard':'dashboard')">
-      M13<span>Studio</span>
-    </a>
+    <a href="#" class="topbar-logo" onclick="navigate(currentRole==='acteur'?'mondashboard':currentRole==='parent'?'parentDashboard':'dashboard')">M13<span>Studio</span></a>
     <div class="topbar-spacer"></div>
-    <div class="topbar-notif" onclick="navigate('messages')" title="Messages">
-      ✉️
-      <div class="notif-badge" id="notif-badge" style="display:none">0</div></div><div id=notif-dropdown style="display:none;position:fixed;top:54px;right:16px;width:320px;background:white;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:2000;border:1px solid var(--gris-border);max-height:400px;overflow-y:auto"><div style="padding:10px 14px;border-bottom:1px solid var(--gris-border);font-weight:700;font-size:13px;color:var(--bleu-pronote)">🔔 Notifications</div><div id="notif-dropdown-items"></div></div><div style="display:none"
+
+    <!-- Cloche notifs -->
+    <div style="position:relative;margin-right:6px">
+      <button onclick="toggleNotifDropdown()" title="Notifications"
+        style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:17px;color:white;display:flex;align-items:center;justify-content:center;position:relative">
+        🔔
+        <span id="notif-badge" style="display:none;position:absolute;top:-2px;right:-2px;background:#FF5252;color:white;border-radius:50%;width:17px;height:17px;font-size:10px;font-weight:700;align-items:center;justify-content:center">0</span>
+      </button>
+      <div id="notif-dropdown" style="display:none;position:fixed;top:54px;right:60px;width:320px;background:white;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:3000;border:1px solid var(--gris-border);max-height:420px;overflow-y:auto">
+        <div style="padding:10px 14px;border-bottom:1px solid var(--gris-border);font-weight:700;font-size:13px;color:var(--bleu-pronote);display:flex;justify-content:space-between;align-items:center">
+          🔔 Notifications
+          <button onclick="toutMarquerLu()" style="font-size:11px;background:none;border:none;color:var(--bleu-pronote);cursor:pointer;font-weight:600">Tout lire ✓</button>
+        </div>
+        <div id="notif-dropdown-items"><div style="padding:16px;text-align:center;color:#90A4AE;font-size:13px">Aucune notification</div></div>
+      </div>
     </div>
+
+    <!-- Messagerie -->
+    <button onclick="navigate('messages')" title="Messages"
+      style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:17px;color:white;display:flex;align-items:center;justify-content:center;margin-right:8px">
+      ✉️
+    </button>
+
+    <!-- Utilisateur -->
     <div class="topbar-user">
       <div class="avatar" id="user-initials">?</div>
       <div>
-        <div style="font-weight:600;font-size:12.5px" id="user-name">Chargement...</div>
-        <div style="font-size:11px;opacity:0.75" id="user-role-badge"></div>
+        <div style="font-weight:600;font-size:12.5px" id="user-name">Chargement…</div>
+        <div style="font-size:11px;opacity:.75" id="user-role-badge"></div>
       </div>
-      <button onclick="logout()" class="btn" style="background:rgba(255,255,255,0.15);color:white;border:none;padding:5px 10px;font-size:12px;margin-left:4px" title="Déconnexion">⏻</button>
+      <button onclick="logout()" title="Déconnexion"
+        style="background:rgba(255,255,255,.15);color:white;border:none;padding:5px 10px;font-size:13px;margin-left:6px;border-radius:6px;cursor:pointer">⏻</button>
     </div>
   </div>
 
@@ -123,13 +123,31 @@
     <div class="page" id="page-bulletins"></div>
     <div class="page" id="page-comptes"></div>
     <div class="page" id="page-matieres"></div>
+    <div class="page" id="page-admin_stats"></div>
+    <div class="page" id="page-admin_logs"></div>
+    <div class="page" id="page-admin_parametres"></div>
+    <div class="page" id="page-publications"></div>
+    <div class="page" id="page-agenda"></div>
+    <div class="page" id="page-ressources"></div>
     <div class="page" id="page-mondashboard"></div>
     <div class="page" id="page-monnotes"></div>
-    <div class="page" id="page-monAbsences"></div>
+    <div class="page" id="page-mesAbsences"></div>
+    <div class="page" id="page-mesSanctions"></div>
+    <div class="page" id="page-mesJustifications"></div>
+    <div class="page" id="page-notifications"></div>
+    <div class="page" id="page-notesperso"></div>
+    <div class="page" id="page-mesCours"></div>
+    <div class="page" id="page-mesRetenues"></div>
+    <div class="page" id="page-parentDashboard"></div>
+    <div class="page" id="page-parentAbsences"></div>
+    <div class="page" id="page-parentNotes"></div>
+    <div class="page" id="page-parentSanctions"></div>
+    <div class="page" id="page-parentJustifier"></div>
+    <div class="page" id="page-justifications"></div>
   </div>
 </div>
 
-<!-- MODALE GÉNÉRIQUE -->
+<!-- MODALE -->
 <div class="modal-overlay" id="generic-modal">
   <div class="modal">
     <div class="modal-header">
@@ -141,29 +159,27 @@
   </div>
 </div>
 
-<!-- =============================================
-     SCRIPTS
-     ✅ Supabase via CDN jsDelivr (fiable, pas de 404)
-     ✅ Chemins relatifs pour les fichiers locaux
-     ============================================= -->
-<!-- CDN Supabase — doit rester AVANT app.js -->
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<!-- app.js contient TOUT : config Supabase + logique + pages -->
 <script src="js/app.js?v=10"></script>
-
 <script>
 function selectRole(role, btn) {
-  document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.role-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
   document.getElementById('selected-role').value = role;
 }
-
 function togglePwd() {
-  const i = document.getElementById('login-pwd');
-  i.type = i.type === 'password' ? 'text' : 'password';
-  document.getElementById('eye-btn').textContent = i.type === 'password' ? '👁️' : '🙈';
+  var i = document.getElementById('login-pwd');
+  var b = document.getElementById('eye-btn');
+  if (i.type === 'password') { i.type = 'text'; b.textContent = '🙈'; }
+  else { i.type = 'password'; b.textContent = '👁️'; }
 }
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('notif-dropdown');
+  if (!dd || dd.style.display === 'none') return;
+  var btn = e.target.closest('[onclick*="toggleNotifDropdown"]');
+  if (!dd.contains(e.target) && !btn) dd.style.display = 'none';
+});
 </script>
-
 </body>
 </html>
