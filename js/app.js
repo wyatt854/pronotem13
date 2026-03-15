@@ -175,7 +175,7 @@ async function loadNotificationsBar() {
   var r = await db.notifs(currentUser.id);
   var notifs = r.data||[];
   var badge = document.getElementById('notif-badge');
-  var list  = document.getElementById('notif-dropdown');
+  var list  = document.getElementById('notif-dropdown-items');
   if(!badge||!list) return;
   if(notifs.length > 0) {
     badge.textContent = notifs.length;
